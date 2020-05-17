@@ -60,7 +60,8 @@ func printUsingStruct2(t TestSt) {
 		varType := e.Type().Field(i).Type
 		varValue := e.Field(i).Interface()
 		varTag := e.Type().Field(i).Tag
-		fmt.Printf("%v %v %v %v\n", varName, varType, varValue, varTag)
+		varSize := varType.Size()
+		fmt.Printf("%v %v %v %v %v \n", varName, varType, varValue, varSize, varTag)
 	}
 }
 
@@ -78,11 +79,13 @@ func printUsingInterface(v interface{}) {
 		varType := rv.Field(i).Type()
 		varValue := rv.Field(i).Interface()
 		varTag := rt.Field(i).Tag
+		varSize := rv.Field(i).Type().Size()
 
 		if rt.Field(i).Type.Kind().String() == "struct" {
 			printUsingInterface(varValue)
 		} else {
-			fmt.Printf("%d: %s (%s) = %v, tag => %s\n", i, varName, varType, varValue, varTag)
+			fmt.Printf("%d: %s (%s) = %+v, size => %d bytes, tag => %s\n", i, varName, varType, varValue, varSize, varTag)
 		}
 	}
 }
+
